@@ -1,6 +1,6 @@
 .PHONY: all build clean
 
-PACKAGE = artifactory_exporter
+PACKAGE = junos_exporter
 IMAGE = ghcr.io/cloudox-org/cloudox-rpm-builder-alma:${VERSION}
 OUT_DIR = el${VERSION}
 

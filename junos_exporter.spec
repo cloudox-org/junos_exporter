@@ -2,25 +2,26 @@
 %global user prometheus
 %global group prometheus
 
-Name: artifactory_exporter
-Version: 1.16.1
+Name: junos_exporter
+Version: 0.15.3
 Release: 1%{?dist}
-Summary: Prometheus exporter for JFrog Artifactory stats.
-License: ASL 2.0
-URL:     https://github.com/peimanja/artifactory_exporter
+Summary: Prometheus exporter for Junos device metrics.
+License: MIT
+URL:     https://github.com/czerwonk/junos_exporter
 
-Source0: https://github.com/peimanja/artifactory_exporter/releases/download/v%{version}/%{name}-v%{version}-linux-amd64.tar.gz
+Source0: https://github.com/czerwonk/junos_exporter/releases/download/v%{version}/prometheus-junos-exporter_%{version}_linux_amd64.tar.gz
 Source1: %{name}.unit
 Source2: %{name}.default
+Source4: %{name}.yaml
 
 %{?systemd_requires}
 Requires(pre): shadow-utils
 
 %description
-Collects metrics about an Artifactory system
+Prometheus exporter for Junos device metrics.
 
 %prep
-%setup -q -D -c %{name}-v%{version}-linux-amd64
+%setup -q -D -c prometheus-junos-exporter_%{version}_linux_amd64
 
 %build
 /bin/true
@@ -30,6 +31,8 @@ mkdir -vp %{buildroot}%{_sharedstatedir}/prometheus
 install -D -m 755 %{name} %{buildroot}%{_bindir}/%{name}
 install -D -m 644 %{SOURCE2} %{buildroot}%{_sysconfdir}/default/%{name}
 install -D -m 644 %{SOURCE1} %{buildroot}%{_unitdir}/%{name}.service
+install -D -m 640 %{SOURCE4} %{buildroot}%{_sysconfdir}/prometheus/%{name}.yaml
+
 
 %pre
 getent group prometheus >/dev/null || groupadd -r prometheus
@@ -52,7 +55,8 @@ exit 0
 %config(noreplace) %{_sysconfdir}/default/%{name}
 %dir %attr(755, %{user}, %{group}) %{_sharedstatedir}/prometheus
 %{_unitdir}/%{name}.service
+%config(noreplace) %attr(640, -, %{group})%{_sysconfdir}/prometheus/%{name}.yaml
 
 %changelog
-* Thu Apr 02 2026 Ivan Garcia <igarcia@cloudox.org> - 1.16.1
-- Initial packaging for the 1.16.1 branch
+* Tue Mar 31 2026 Ivan Garcia <igarcia@cloudox.org> - 0.15.3
+- Initial packaging for the 0.15.3 branch

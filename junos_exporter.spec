@@ -3,7 +3,7 @@
 %global group prometheus
 
 Name: junos_exporter
-Version: 0.15.3
+Version: 0.16.1
 Release: 1%{?dist}
 Summary: Prometheus exporter for Junos device metrics.
 License: MIT
@@ -58,5 +58,7 @@ exit 0
 %config(noreplace) %attr(640, -, %{group})%{_sysconfdir}/prometheus/%{name}.yaml
 
 %changelog
+* Thu Aug 06 2026 Ivan Garcia <igarcia@cloudox.org> - 0.16.1
+- Initial packaging for the 0.16.1 branch
 * Tue Mar 31 2026 Ivan Garcia <igarcia@cloudox.org> - 0.15.3
 - Initial packaging for the 0.15.3 branch
